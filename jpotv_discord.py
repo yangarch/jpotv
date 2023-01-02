@@ -4,6 +4,8 @@ from time import sleep
 import cv2
 import discord
 import m3u8
+import yaml
+import os
 from discord.ext import tasks
 from selenium import webdriver
 
@@ -12,14 +14,10 @@ intents.message_content = True
 
 client = discord.Client(intents=intents)
 
-## constant
-BLACK_FILE_SIE = 66554452
-JPOTV_CHANNEL_ID = 1054708028852686870
-
-KEYPAIR = "?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vY2gwMS1saXZlY2RuLnNwb3R2bm93LmNvLmtyL2NoMDEvc3B0MDEuc21pbC8qIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjcyMTQ0MjAwfX19XX0_&Signature=jGFXJkWnnYrIR7GgHBDVDWv2HRH1s36Lf349cHJKu~veYG65k3hCcX3OAll4uHpp8tFY8yCEuk~Ot6oBna0WP9eQ294QZE6nMAh~DoOsFLTVRXaFuvbp~yNz489kc9HlhmSvo0hFUlO207kezzSXIE6yyCVhiclBsSZ7WN83E~YRqT-MPlhVgenOuiipmAm9y~DuV8LwI9DnAcsKTg-PCYQBEdtHvoAey0k-DQsYN1cqjbFKgIMkeZdQsHshvMEGLDIx8ekcR3JTvuPEkubUt1VOyGeIT29YyS9ke0Z610FOaCTCIf2DbuHZTuUqUwqZgT4idcj7Sgv70-2l5JfJaw__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q"
+with open(f'{os.environ["JPOTV"]}/cred/path.yaml', encoding="UTF-8") as f:
+    cred = yaml.load(f, Loader=yaml.FullLoader)
 
 ## function line
-
 ## channel search
 def find_channel():
     channel_ch_list = []
@@ -34,20 +32,16 @@ def find_channel():
         else:
             ch = str(i)
 
-        url_ch = (
-            f"https://ch{ch}-livecdn.spotvnow.co.kr/ch{ch}/ch{ch}.smil/playlist.m3u8"
-        )
-        url_ch = url_ch + KEYPAIR
+        url_ch = cred["CH_PATH"]
+        url_ch = url_ch + cred["KEYPAIR"]
         try:
             playlist = m3u8.load(url_ch)
             channel_ch_list.append(url_ch)
         except:
             pass
 
-        url_spt = (
-            f"https://ch{ch}-livecdn.spotvnow.co.kr/ch{ch}/spt{ch}.smil/playlist.m3u8"
-        )
-        url_spt = url_spt + KEYPAIR
+        url_spt = cred["SPT_PATH"]
+        url_spt = url_spt + cred["KEYPAIR"]
         try:
             playlist = m3u8.load(url_spt)
             channel_spt_list.append(url_spt)
@@ -61,20 +55,16 @@ def find_channel():
         else:
             ch = str(i)
 
-        url_ch = (
-            f"https://ch{ch}-livecdn.spotvnow.co.kr/ch{ch}/ch{ch}.smil/playlist.m3u8"
-        )
-        url_ch = url_ch + KEYPAIR
+        url_ch = cred["CH_PATH"]
+        url_ch = url_ch + cred["KEYPAIR"]
         try:
             playlist = m3u8.load(url_ch)
             channel_ch_list_1.append(url_ch)
         except:
             pass
 
-        url_spt = (
-            f"https://ch{ch}-livecdn.spotvnow.co.kr/ch{ch}/spt{ch}.smil/playlist.m3u8"
-        )
-        url_spt = url_spt + KEYPAIR
+        url_spt = cred["SPT_PATH"]
+        url_spt = url_spt + cred["KEYPAIR"]
         try:
             playlist = m3u8.load(url_spt)
             channel_spt_list_1.append(url_spt)
@@ -88,9 +78,9 @@ def find_channel():
 
 ## new search
 def find_channel_new():
-    link_1 = "https://spotvon-livecdn.spotvnow.co.kr/spotvon/spotvon.smil/chunklist_b6192000.m3u8"
-    link_2 = "https://spotvon2-livecdn.spotvnow.co.kr/spotvon2/spotvon2.smil/chunklist_b6192000.m3u8"
-    link_3 = "https://spotvprime-livecdn.spotvnow.co.kr/spotvprime/spotvprime.smil/chunklist_b6192000.m3u8"
+    link_1 = cred["link_1"]
+    link_2 = cred["link_2"]
+    link_3 = cred["link_3"]
 
     res_list = [link_1, link_2, link_3]
     return res_list
@@ -135,7 +125,7 @@ async def on_message(message):
                 for j in line:
                     image_size += line[j]
 
-            if abs(image_size / BLACK_FILE_SIE) > 1.05 or abs(image_size / BLACK_FILE_SIE) < 0.95:
+            if abs(image_size / cred["BLACK_FILE_SIZE"]) > 1.05 or abs(image_size / cred["BLACK_FILE_SIZE"]) < 0.95:
                 await message.channel.send(f"탐색중 총{len(res_list)} 중 {counter}번째")
                 img_file = discord.File(f"result/{img_name}")
                 await message.channel.send(i, file=img_file)
@@ -149,10 +139,10 @@ async def on_message(message):
 @tasks.loop(minutes=1)
 async def cronjob():
     print("funcg")
-    ch = client.get_channel(JPOTV_CHANNEL_ID)
+    ch = client.get_channel(cred["JPOTV_CHANNEL_ID"])
     now = datetime.datetime.now().minute
-    #if now in (10, 25, 40, 55):
-    if now:
+    if now in (10, 25, 40, 55):
+    #if now:
         await ch.send(f"{now}분 채널 탐색 시작")
         #res_list = find_channel()
         res_list = find_channel_new()
@@ -185,5 +175,5 @@ async def cronjob():
         pass
 
 
-token = "MTAzMjY1MzEzMDQ4NTIwNzEyMQ.GHBU-M.B1XDrzaHwM2EUnkYrHSOeoFJXO-i3pWOXn_uPM"
+token = cred["DISCORD"]
 client.run(token)
