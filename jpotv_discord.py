@@ -171,6 +171,7 @@ async def cronjob():
             driver.close()
 
             counter += 1
+        await ch.send(f"탐색 완료")
     else:
         pass
 
