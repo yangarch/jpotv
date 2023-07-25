@@ -54,6 +54,7 @@ browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), opt
 #)
 browser.maximize_window()
 browser.get("https://www.spotvnow.co.kr/")
+time.sleep(2)
 
 # 이메일, 비밀번호 입력
 email_input = browser.find_element_by_css_selector(
