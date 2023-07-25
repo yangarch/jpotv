@@ -1,10 +1,7 @@
 import time
 
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.service import Service
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotInteractableException
@@ -46,12 +43,15 @@ PASSWORD = "arch0115"
 capabilities = webdriver.DesiredCapabilities.CHROME.copy()
 capabilities["acceptInsecureCerts"] = True
 
+#
+browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options, desired_capabilities=capabilities,)
+
 # WebDriver 설정
-browser = webdriver.Chrome(
-    ChromeDriverManager().install(),
-    options=chrome_options,
-    desired_capabilities=capabilities,
-)
+#browser = webdriver.Chrome(
+#    ChromeDriverManager().install(),
+#    options=chrome_options,
+#    desired_capabilities=capabilities,
+#)
 browser.maximize_window()
 browser.get("https://www.spotvnow.co.kr/")
 
