@@ -44,7 +44,8 @@ capabilities = webdriver.DesiredCapabilities.CHROME.copy()
 capabilities["acceptInsecureCerts"] = True
 
 #
-browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options, desired_capabilities=capabilities)
+chromedriver_version = "114.0.5735.16"
+browser = webdriver.Chrome(service=Service(ChromeDriverManager(version=chromedriver_version).install()), options=chrome_options, desired_capabilities=capabilities)
 
 # WebDriver 설정
 #browser = webdriver.Chrome(
