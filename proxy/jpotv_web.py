@@ -43,10 +43,11 @@ PASSWORD = "arch0115"
 capabilities = webdriver.DesiredCapabilities.CHROME.copy()
 capabilities["acceptInsecureCerts"] = True
 
+#chrome_options.set_capability("unhandledPromptBehavior", "ignore")
 #
 service = Service(ChromeDriverManager().install())
 chromedriver_version = "114.0.5735.16"
-browser = webdriver.Chrome(service=service, options=chrome_options, desired_capabilities=capabilities)
+browser = webdriver.Chrome(service=service, options=chrome_options)
 
 # WebDriver 설정
 #browser = webdriver.Chrome(
