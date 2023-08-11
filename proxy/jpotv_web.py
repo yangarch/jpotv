@@ -2,6 +2,7 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotInteractableException
@@ -60,19 +61,19 @@ browser.get("https://www.spotvnow.co.kr/")
 time.sleep(2)
 
 # 이메일, 비밀번호 입력
-email_input = browser.find_element_by_css_selector(
-    "input.login_input[type='email']"
+email_input = browser.findElements(By.cssSelector(
+    "input.login_input[type='email']")
 )  # 이메일 입력 필드 선택자 수정
 email_input.send_keys(EMAIL)
 
-password_input = browser.find_element_by_css_selector(
-    "input.login_input[type='password']"
+password_input = browser.findElements(By.cssSelector(
+    "input.login_input[type='password']")
 )  # 이메일 입력 필드 선택자 수정
 password_input.send_keys(PASSWORD)
 
 # 로그인 버튼 클릭
-login_button = browser.find_element_by_css_selector(
-    "button.default.ok.active"
+login_button = browser.findElements(By.cssSelector(
+    "button.default.ok.active")
 )  # 로그인 버튼 선택자 수정
 login_button.click()
 
