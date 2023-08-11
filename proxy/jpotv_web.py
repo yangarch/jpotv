@@ -43,9 +43,10 @@ PASSWORD = "arch0115"
 capabilities = webdriver.DesiredCapabilities.CHROME.copy()
 capabilities["acceptInsecureCerts"] = True
 
+
 #
 chromedriver_version = "114.0.5735.16"
-browser = webdriver.Chrome(service=Service(ChromeDriverManager(version=chromedriver_version).install()), options=chrome_options, desired_capabilities=capabilities)
+browser = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options, desired_capabilities=capabilities)
 
 # WebDriver 설정
 #browser = webdriver.Chrome(
