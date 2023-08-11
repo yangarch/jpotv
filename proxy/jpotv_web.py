@@ -61,18 +61,18 @@ browser.get("https://www.spotvnow.co.kr/")
 time.sleep(2)
 
 # 이메일, 비밀번호 입력
-email_input = browser.find_element(By.cssSelector(
+email_input = browser.find_element(By.CSS_SELECTOR(
     "input.login_input[type='email']")
 )  # 이메일 입력 필드 선택자 수정
 email_input.send_keys(EMAIL)
 
-password_input = browser.find_element(By.cssSelector(
+password_input = browser.find_element(By.CSS_SELECTOR(
     "input.login_input[type='password']")
 )  # 이메일 입력 필드 선택자 수정
 password_input.send_keys(PASSWORD)
 
 # 로그인 버튼 클릭
-login_button = browser.find_element(By.cssSelector(
+login_button = browser.find_element(By.CSS_SELECTOR(
     "button.default.ok.active")
 )  # 로그인 버튼 선택자 수정
 login_button.click()
