@@ -86,11 +86,7 @@ def find_channel_new():
     return res_list
 
 ## new search by proxy
-def find_channel_proxy():
-    path = "/Users/archmacmini/Project/jpotv/proxy/output.txt"
-    with open(path, 'r') as file:
-        lines = file.readlines()
-    return lines
+
 
 @client.event
 async def on_ready():
@@ -153,7 +149,7 @@ async def cronjob():
     #if now:
         await ch.send(f"{now}분 채널 탐색 시작")
         #res_list = find_channel()
-        res_list = find_channel_proxy()
+        res_list = find_channel_new()
         print(res_list)
         counter = 1
         for i in res_list:
