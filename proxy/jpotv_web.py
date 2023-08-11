@@ -82,7 +82,8 @@ time.sleep(2)
 #time.sleep(2)
 
 # 파일 삭제
-with open('output.txt', 'w') as file:
+path = "/Users/archmacmini/Project/jpotv/proxy/"
+with open(f'{path}/output.txt', 'w') as file:
     pass
 
 # TV 채널 클릭
