@@ -160,7 +160,7 @@ async def cronjob():
             driver = webdriver.Safari()
             driver.get(i)
             sleep(5)
-            img_name = i[41:46] + ".png"
+            img_name = f"{counter}.png"
             driver.get_screenshot_as_file(f"result/{img_name}")
             # img compare
             image = cv2.imread(f"result/{img_name}", cv2.IMREAD_GRAYSCALE)
