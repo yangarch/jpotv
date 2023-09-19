@@ -106,9 +106,31 @@ with open(f'{path}/output.txt', 'w') as file:
 #    print("해당 요소를 찾지 못했습니다.")
 
 #time.sleep(5)
-
+cookies = {}
 for i in CHANNEL_LIST:
-    browser.get(f"https://www.spotvnow.co.kr/player?type=channel&id={i}")
+    browser.get(f"https://www.spotvnow.co.kr/player?type=channel&id={i}")    
+    cookies = browser.get_cookies()
     time.sleep(2)
+
+new_string = f"chunklist_b1692000.m3u8?Policy={cookies['CloudFront-Policy']}&Signature={cookies['CloudFront-Signature']}&Key-Pair-Id={cookies['CloudFront-Key-Pair-Id']}"
+filename = '/Users/archmacmini/Project/jpotv/proxy/output.txt'  # 원하는 파일 이름으로 변경해주세요.
+
+# 파일에서 내용 읽기
+with open(filename, 'r') as file:
+    lines = file.readlines()
+
+# 각 줄을 처리
+modified_lines = []
+for line in lines:
+    parts = line.strip().split('/')
+    if parts:
+        parts.pop()
+    parts.append(new_string)
+    modified_line = '/'.join(parts)
+    modified_lines.append(modified_line + '\n')
+
+# 수정된 내용으로 파일에 다시 쓰기
+with open(filename, 'w') as file:
+    file.writelines(modified_lines)
 
 browser.quit()
