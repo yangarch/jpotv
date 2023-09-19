@@ -111,11 +111,11 @@ for i in CHANNEL_LIST:
     browser.get(f"https://www.spotvnow.co.kr/player?type=channel&id={i}")    
     cookies = browser.get_cookies()
     for cookie in cookies:
-        if cookie['value'] == 'CloudFront-Key-Pair-Id':
+        if cookie['name'] == 'CloudFront-Key-Pair-Id':
             key_pair = cookie['value']
-        if cookie['value'] == 'CloudFront-Policy':
+        if cookie['name'] == 'CloudFront-Policy':
             policy = cookie['value']
-        if cookie['value'] == 'CloudFront-Signature':
+        if cookie['name'] == 'CloudFront-Signature':
             sig = cookie['value']
     time.sleep(2)
 
