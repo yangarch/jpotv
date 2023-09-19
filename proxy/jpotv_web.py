@@ -110,9 +110,16 @@ cookies = {}
 for i in CHANNEL_LIST:
     browser.get(f"https://www.spotvnow.co.kr/player?type=channel&id={i}")    
     cookies = browser.get_cookies()
+    for cookie in cookies:
+        if cookie['value'] == 'CloudFront-Key-Pair-Id':
+            key_pair = cookie['value']
+        if cookie['value'] == 'CloudFront-Policy':
+            policy = cookie['value']
+        if cookie['value'] == 'CloudFront-Signature':
+            sig = cookie['value']
     time.sleep(2)
 
-new_string = f"chunklist_b1692000.m3u8?Policy={cookies['CloudFront-Policy']}&Signature={cookies['CloudFront-Signature']}&Key-Pair-Id={cookies['CloudFront-Key-Pair-Id']}"
+new_string = f"chunklist_b1692000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"
 filename = '/Users/archmacmini/Project/jpotv/proxy/output.txt'  # 원하는 파일 이름으로 변경해주세요.
 
 # 파일에서 내용 읽기
