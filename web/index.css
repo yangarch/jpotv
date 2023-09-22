@@ -1,0 +1,66 @@
+body {
+    background-color: black;
+}
+
+.row {
+    border: solid 1px #666;
+}
+
+.banner-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.banner-container img {
+    flex: 1; 
+    max-width: 20%;
+    height: auto;
+}
+
+@media (max-width: 740px) {
+    .banner-container img {
+        max-width: 50%;
+    }
+}
+
+.video-container {
+    height: 640px;
+}
+
+.video-js {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.button-container {
+    height: 640px;
+    overflow-x: auto;
+}
+
+.list-group,
+.list-group .list-group-item {
+    width: 100%;
+}
+
+.list-group .list-group-item {
+    height: 100px;
+    line-height: 100px;
+    padding: 0px 15px;
+    border-radius: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.list-group-item .active {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+
+.btn,
+input[type="text"] {
+    border-radius: 0;
+}

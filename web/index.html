@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPOTV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.5.3/video-js.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <span class="navbar-brand mb-0 mx-3 h1">JPOTV</span>
+  </nav>
+  <div class="container">
+    <div class="row px-0 mt-3">
+      <div class="col-md-12 px-0 banner-container">
+        <img src="./image/banner1.gif"/> <img src="./image/banner2.gif"/> 
+        <img src="./image/banner3.gif"/> <img src="./image/banner4.gif"/> 
+        <img src="./image/banner5.gif"/> <img src="./image/banner6.gif"/>
+        <img src="./image/banner7.gif"/> <img src="./image/banner8.gif"/> 
+        <img src="./image/banner9.gif"/> <img src="./image/banner10.gif"/>
+      </div>
+    </div>
+    <div class="row px-0 mt-3">
+      <div class="col-md-10 px-0 video-container">
+        <video class="video-js" id="video" controls>
+          <source src="https://spotv-livescdn.spotvnow.co.kr/spotv/spotv_pc.smil/chunklist_b9192000.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vKmxpdmVzY2RuLnNwb3R2bm93LmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE2OTU0Mzc3MDB9fX1dfQ__&Signature=GhEdcK619LdrIIFfYJPZgXDSHSbyPmbIf9-bojeBIkYwJfFQfG2Hgoz5yj2OMQF2H7kuzWU1fxiNzNhdn4MW1d1DTafoDwcu0W94JHKxCh8CteaLMPXmbuun-K7otO1gpJzOx3wbe9WktNy-9P4q2PGYRXfdscLmJYOtNZPMB5AhvR2s-5K~~HipmOh9JdyliRVO9AXpfGUrQ~cHVPhScCAbv-Da~crkaetCWDhrnTLNA9PhagulOV~seFsMlK7ANH830~qUG~6O4V-BhvyVp4fh38uRt7nqTlcJCJTYPX-llSIqcquqWmcRInpjwFjALabi5DpHaW3Vd1ZRuIdUMA__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q" type="application/x-mpegURL">
+        </video>
+      </div>
+      <div class="col-md-2 px-0 button-container">
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-dark active">The current link item</a>
+          <a href="#" class="list-group-item list-group-item-dark">A second link item</a>
+          <a href="#" class="list-group-item list-group-item-dark">A third link item</a>
+          <a href="#" class="list-group-item list-group-item-dark">A fourth link item</a>
+          <a href="#" class="list-group-item list-group-item-dark">A fourth link item</a>
+          <a href="#" class="list-group-item list-group-item-dark">A fourth link item</a>
+          <a href="#" class="list-group-item list-group-item-dark">A fourth link item</a>
+        </div>
+      </div>
+    </div>
+    <div class="row px-0 mb-5">
+      <div class="col-md-12 px-0 url-container">
+        <div class="input-group px-0">
+          <input type="text" class="form-control" disabled>
+          <button class="btn btn-secondary">주소복사</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.5.3/video.min.js"></script>
+<script>
+    var player = videojs('video');
+    player.play();
+
+    $(document).ready(function() {
+      $(".list-group-item").click(function(e) {
+        e.preventDefault();
+        $(".list-group-item.active").removeClass("active");
+        $(this).addClass("active");
+      });
+    });
+</script>
+
+</body>
+</html>
