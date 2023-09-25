@@ -82,8 +82,7 @@ time.sleep(2)
 #time.sleep(2)
 
 # 파일 삭제
-path = "/Users/archmacmini/Project/jpotv/proxy/"
-with open(f'{path}/output.txt', 'w') as file:
+with open(f'../result/output.txt', 'w') as file:
     pass
 
 # TV 채널 클릭
@@ -120,7 +119,7 @@ for i in CHANNEL_LIST:
     time.sleep(2)
 
 new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"
-filename = '/Users/archmacmini/Project/jpotv/proxy/output.txt'  # 원하는 파일 이름으로 변경해주세요.
+filename = '../result/output.txt'
 
 # 파일에서 내용 읽기
 with open(filename, 'r') as file:
