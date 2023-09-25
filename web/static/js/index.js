@@ -60,6 +60,7 @@ $(function() {
                 type: 'application/x-mpegURL'
             });
             player.play();
+            player.muted(false);
 
             document.getElementById('url').value = data[this.text];
         });
