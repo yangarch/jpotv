@@ -6,4 +6,4 @@ do
     kill -9 $i
 done
 
-nohup python3 jpotv_discord.py > logs/discord_log.txt &
+nohup python3 jpotv_discord.py > ../logs/discord_log.txt &

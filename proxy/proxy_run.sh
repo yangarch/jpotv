@@ -6,4 +6,4 @@ do
     kill -9 $i
 done
 
-nohup mitmdump -s jpotv_proxy.py -p 18080 >> /Users/archmacmini/Project/jpotv/logs/jpotv_proxy_log.txt &
+nohup mitmdump -s jpotv_proxy.py -p 18080 >> ../logs/jpotv_proxy_log.txt &

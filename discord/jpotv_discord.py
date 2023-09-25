@@ -87,7 +87,7 @@ def find_channel_new():
 
 ## new search by proxy
 def find_channel_proxy():
-    path = "/Users/archmacmini/Project/jpotv/proxy/output.txt"
+    path = "../result/output.txt"
     with open(path, 'r') as file:
         lines = file.readlines()
     return lines
