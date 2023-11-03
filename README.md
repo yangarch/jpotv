@@ -8,6 +8,8 @@ flask를 gunicorn으로 띄우기
 
 gunicorn -w 4 -b 0.0.0.0:8000 app:app
 
+crom 활성
+service start cron
 
 systemctl stop docker  
 systemctl stop docker.socket  
