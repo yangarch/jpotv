@@ -9,12 +9,10 @@ flask를 gunicorn으로 띄우기
 gunicorn -w 4 -b 0.0.0.0:8000 app:app
 
 
-----
- 1730  systemctl stop dockedr
- 1731  systemctl stop docker
- 1732  systemctl stop docker.socket
- 1733  umount docker
- 1734  fdisk -l
- 1735  mount /dev/sdd1 /home/docker
- 1736  systemctl start docker
- 1737  docker start fastapi_test
+systemctl stop docker  
+systemctl stop docker.socket  
+umount docker  
+fdisk -l  
+mount /dev/sdd1 /home/docker  
+systemctl start docker  
+docker start fastapi_test  
