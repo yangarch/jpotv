@@ -77,7 +77,10 @@ close_all_popups(browser)
 # go to tv channel
 tv_channel_li = browser.find_element(By.CSS_SELECTOR, "li.header-ch")
 tv_channel_li.click()
-time.sleep(3)
+time.sleep(2)
+div_element = browser.find_element(By.CSS_SELECTOR, "div.Program-Channel")
+div_element.click()
+time.sleep(5)
 
 # 파일 삭제
 with open(f'../result/output.txt', 'w') as file:
