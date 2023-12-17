@@ -105,19 +105,19 @@ except:
 urls = []
 
 for i in CHANNEL_LIST:
-    url = "https://www.spotvnow.co.kr/player?type=channel&id={i}"
+    url = f"https://www.spotvnow.co.kr/player?type=channel&id={i}"
     browser.get(url)
     time.sleep(2)
 
 #extra channel
 for i in range(1, 10):
-    url='https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil'
+    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil'
     browser.get(url)
     time.sleep(2)
 
 #extra channel 2
 for i in range(10,31):
-    url='https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil'
+    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil'
     browser.get(url)
     time.sleep(2)
 
