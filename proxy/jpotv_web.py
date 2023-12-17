@@ -81,16 +81,7 @@ time.sleep(2)
 div_element = browser.find_element(By.CSS_SELECTOR, "div.Program-Channel")
 div_element.click()
 time.sleep(5)
-
-# 파일 삭제
-with open(f'../result/output.txt', 'w') as file:
-    pass
-
 cookies = {}
-
-channel_spotv = "https://www.spotvnow.co.kr/player?type=channel&id=9"
-browser.get(channel_spotv)
-time.sleep(5)
 cookies = browser.get_cookies()
 try: 
     for cookie in cookies:
@@ -105,22 +96,26 @@ except:
 urls = []
 new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
 
+# 파일 삭제
+with open(f'../result/output.txt', 'w') as file:
+    pass
+
 for i in CHANNEL_LIST:
     url = f"https://www.spotvnow.co.kr/player?type=channel&id={i}"
     browser.get(url)
-    time.sleep(2)
+    time.sleep(5)
 
 #extra channel
 for i in range(1, 10):
     url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/{new_string}'
     browser.get(url)
-    time.sleep(2)
+    time.sleep(3)
 
 #extra channel 2
 for i in range(10,31):
     url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/{new_string}'
     browser.get(url)
-    time.sleep(2)
+    time.sleep(3)
 
 #for highlights
 browser.get(home_url)
@@ -143,6 +138,8 @@ for xpath in highlight_elements_xpaths:
         
         # 요소 클릭
         element_to_click.click()
+
+        time.sleep(3)
 
     except:
         print("can't find highlights")
