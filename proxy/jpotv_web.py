@@ -22,7 +22,7 @@ def close_all_popups(browser):
     try:
         # close button find
         button = browser.find_elements(By.ID, "Close")
-        print(button)
+        
         # 'close'이라는 단어가 포함된 id를 가진 이미지 찾아 클릭
         for image in button:
             image_id = image.get_attribute("id")
@@ -81,6 +81,8 @@ time.sleep(2)
 div_element = browser.find_element(By.CSS_SELECTOR, "div.Program-Channel")
 div_element.click()
 time.sleep(5)
+
+#find key part
 cookies = {}
 cookies = browser.get_cookies()
 try: 
@@ -105,17 +107,17 @@ for i in CHANNEL_LIST:
     browser.get(url)
     time.sleep(5)
 
-#extra channel
-for i in range(1, 10):
-    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/{new_string}'
-    browser.get(url)
-    time.sleep(3)
+# #extra channel
+# for i in range(1, 10):
+#     url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/{new_string}'
+#     browser.get(url)
+#     time.sleep(3)
 
-#extra channel 2
-for i in range(10,31):
-    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/{new_string}'
-    browser.get(url)
-    time.sleep(3)
+# #extra channel 2
+# for i in range(10,31):
+#     url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/{new_string}'
+#     browser.get(url)
+#     time.sleep(3)
 
 #for highlights
 browser.get(home_url)
@@ -147,23 +149,23 @@ for xpath in highlight_elements_xpaths:
 
 filename = '../result/output.txt'
 
-# 파일에서 내용 읽기
-with open(filename, 'r') as file:
-    lines = file.readlines()
+# # 파일에서 내용 읽기
+# with open(filename, 'r') as file:
+#     lines = file.readlines()
 
-# 각 줄을 처리
-modified_lines = []
-for line in lines:
-    parts = line.strip().split('/')
-    if parts:
-        parts.pop()
-    parts.append(new_string)
-    modified_line = '/'.join(parts)
-    modified_lines.append(modified_line + '\n')
+# # 각 줄을 처리
+# modified_lines = []
+# for line in lines:
+#     parts = line.strip().split('/')
+#     if parts:
+#         parts.pop()
+#     parts.append(new_string)
+#     modified_line = '/'.join(parts)
+#     modified_lines.append(modified_line + '\n')
 
-# 수정된 내용으로 파일에 다시 쓰기
-with open(filename, 'w') as file:
-    file.writelines(modified_lines)
+# # 수정된 내용으로 파일에 다시 쓰기
+# with open(filename, 'w') as file:
+#    file.writelines(modified_lines)
 
 
 browser.quit()
