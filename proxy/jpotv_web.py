@@ -82,21 +82,21 @@ div_element = browser.find_element(By.CSS_SELECTOR, "div.Program-Channel")
 div_element.click()
 time.sleep(5)
 
-#find key part
-cookies = {}
-cookies = browser.get_cookies()
-try: 
-    for cookie in cookies:
-        if cookie['name'] == 'CloudFront-Key-Pair-Id':
-            key_pair = cookie['value']
-        if cookie['name'] == 'CloudFront-Policy':
-            policy = cookie['value']
-        if cookie['name'] == 'CloudFront-Signature':
-            sig = cookie['value']
-except:
-    "cookies something wrong. check need"
+# #find key part
+# cookies = {}
+# cookies = browser.get_cookies()
+# try: 
+#     for cookie in cookies:
+#         if cookie['name'] == 'CloudFront-Key-Pair-Id':
+#             key_pair = cookie['value']
+#         if cookie['name'] == 'CloudFront-Policy':
+#             policy = cookie['value']
+#         if cookie['name'] == 'CloudFront-Signature':
+#             sig = cookie['value']
+# except:
+#     "cookies something wrong. check need"
 urls = []
-new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
+#new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
 
 # 파일 삭제
 with open(f'../result/output.txt', 'w') as file:
@@ -120,31 +120,32 @@ for i in CHANNEL_LIST:
 #     time.sleep(3)
 
 #for highlights
-browser.get(home_url)
+# browser.get(home_url)
+# time.sleep(2)
 
-highlight_elements_xpaths = []
-elements = browser.find_elements(By.XPATH, "//*[contains(text(), '하이라이트')]")
-for element in elements:
-    # 각 요소에 대한 XPath를 리스트에 추가
-    highlight_elements_xpaths.append(browser.execute_script(
-        "return generateXPath(arguments[0]);", element))
+# highlight_elements_xpaths = []
+# elements = browser.find_elements(By.LINK_TEXT, "//*[contains(text(), '하이라이트')]")
+# for element in elements:
+#     # 각 요소에 대한 XPath를 리스트에 추가
+#     highlight_elements_xpaths.append(browser.execute_script(
+        # "return generateXPath(arguments[0]);", element))
 
-# XPath를 사용하여 각 요소에 접근하고 클릭
-for xpath in highlight_elements_xpaths:
-    try:
-        # 원래 URL로 돌아가기
-        browser.get(home_url)
+# # XPath를 사용하여 각 요소에 접근하고 클릭
+# for xpath in highlight_elements_xpaths:
+#     try:
+#         # 원래 URL로 돌아가기
+#         browser.get(home_url)
 
-        # XPath를 사용하여 요소 찾기
-        element_to_click = browser.find_element(By.XPATH, xpath)
+#         # XPath를 사용하여 요소 찾기
+#         element_to_click = browser.find_element(By.XPATH, xpath)
         
-        # 요소 클릭
-        element_to_click.click()
+#         # 요소 클릭
+#         element_to_click.click()
 
-        time.sleep(3)
+#         time.sleep(3)
 
-    except:
-        print("can't find highlights")
+#     except:
+#         print("can't find highlights")
 
 
 filename = '../result/output.txt'
