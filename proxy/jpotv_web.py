@@ -21,15 +21,16 @@ def close_all_popups(browser):
     time.sleep(2)
     try:
         # close button find
-        button = browser.find_elements(By.CSS_SELECTOR, "label[id='Close']")
-
+        button = browser.find_elements(By.ID, "Close")
+        print(button)
         # 'close'이라는 단어가 포함된 id를 가진 이미지 찾아 클릭
         for image in button:
             image_id = image.get_attribute("id")
-            if "close" in image_id:
+            if "Close" in image_id:
                 image.click()
     except:
         print("There's no pop up")
+    
     time.sleep(2)
 
 # mitmproxy가 실행되는 호스트와 포트
@@ -73,8 +74,13 @@ login_button.click()
 
 close_all_popups(browser)
 
+# go to tv channel
+tv_channel_li = browser.find_element(By.CSS_SELECTOR, "li.header-ch")
+tv_channel_li.click()
+time.sleep(3)
+
 # 파일 삭제
-with open(f'../result/tmp_output.txt', 'w') as file:
+with open(f'../result/output.txt', 'w') as file:
     pass
 
 cookies = {}
@@ -138,7 +144,7 @@ for xpath in highlight_elements_xpaths:
         print("can't find highlights")
 
 new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
-filename = '../result/tmp_output.txt'
+filename = '../result/output.txt'
 
 # 파일에서 내용 읽기
 with open(filename, 'r') as file:
