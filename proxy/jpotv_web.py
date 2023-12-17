@@ -103,6 +103,7 @@ try:
 except:
     "cookies something wrong. check need"
 urls = []
+new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
 
 for i in CHANNEL_LIST:
     url = f"https://www.spotvnow.co.kr/player?type=channel&id={i}"
@@ -111,13 +112,13 @@ for i in CHANNEL_LIST:
 
 #extra channel
 for i in range(1, 10):
-    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil'
+    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/{new_string}'
     browser.get(url)
     time.sleep(2)
 
 #extra channel 2
 for i in range(10,31):
-    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil'
+    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/{new_string}'
     browser.get(url)
     time.sleep(2)
 
@@ -146,7 +147,7 @@ for xpath in highlight_elements_xpaths:
     except:
         print("can't find highlights")
 
-new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
+
 filename = '../result/output.txt'
 
 # 파일에서 내용 읽기
