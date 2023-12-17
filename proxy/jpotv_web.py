@@ -4,8 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import ElementNotInteractableException
 from webdriver_manager.chrome import ChromeDriverManager
 
 '''
@@ -20,16 +18,19 @@ nba tv : 3
 CHANNEL_LIST = ["9", "10", "15", "11", "1", "2", "3"]
 
 def close_all_popups(browser):
+    time.sleep(2)
     try:
-        all_popups = browser.find_elements_by_css_selector("label[id='Close']")
-        for popup in all_popups:
-            popup.click()
-            print("Popup closed.")
-    except NoSuchElementException:
-        print("No such element.")
-    except ElementNotInteractableException:
-        print("Element not interactable.")
+        # close button find
+        button = browser.find_elements(By.CSS_SELECTOR, "label[id='Close']")
 
+        # 'close'이라는 단어가 포함된 id를 가진 이미지 찾아 클릭
+        for image in button:
+            image_id = image.get_attribute("id")
+            if "close" in image_id:
+                image.click()
+    except:
+        print("There's no pop up")
+    time.sleep(2)
 
 # mitmproxy가 실행되는 호스트와 포트
 proxy = "localhost:18080"
@@ -44,20 +45,13 @@ PASSWORD = "arch0115"
 capabilities = webdriver.DesiredCapabilities.CHROME.copy()
 capabilities["acceptInsecureCerts"] = True
 
-#chrome_options.set_capability("unhandledPromptBehavior", "ignore")
-#
 service = Service(ChromeDriverManager().install())
 chromedriver_version = "114.0.5735.16"
 browser = webdriver.Chrome(service=service, options=chrome_options)
 
-# WebDriver 설정
-#browser = webdriver.Chrome(
-#    ChromeDriverManager().install(),
-#    options=chrome_options,
-#    desired_capabilities=capabilities,
-#)
 browser.maximize_window()
-browser.get("https://www.spotvnow.co.kr/")
+home_url = "https://www.spotvnow.co.kr/"
+browser.get(home_url)
 time.sleep(2)
 
 # 이메일, 비밀번호 입력
@@ -77,38 +71,19 @@ login_button = browser.find_element(By.CSS_SELECTOR,
 )  # 로그인 버튼 선택자 수정
 login_button.click()
 
-time.sleep(2)
-#close_all_popups(browser)
-#time.sleep(2)
+close_all_popups(browser)
 
 # 파일 삭제
-with open(f'../result/output.txt', 'w') as file:
+with open(f'../result/tmp_output.txt', 'w') as file:
     pass
 
-# TV 채널 클릭
-#tv_channel = browser.find_element_by_css_selector("li.header-ch span")
-#actions = ActionChains(browser)
-#actions.move_to_element(tv_channel).perform()
-
-# 대기 시간
-#time.sleep(2)
-# TV 채널 클릭
-#tv_channel.click()
-
-#try:
-#    image_element = WebDriverWait(browser, 10).until(
-#        EC.presence_of_element_located((By.CSS_SELECTOR, "div.Program-Channel.bg-214"))
-#    )
-#    # 요소 클릭
-#    image_element.click()
-#except TimeoutError:
-#    print("해당 요소를 찾지 못했습니다.")
-
-#time.sleep(5)
 cookies = {}
-for i in CHANNEL_LIST:
-    browser.get(f"https://www.spotvnow.co.kr/player?type=channel&id={i}")    
-    cookies = browser.get_cookies()
+
+channel_spotv = "https://www.spotvnow.co.kr/player?type=channel&id=9"
+browser.get(channel_spotv)
+time.sleep(5)
+cookies = browser.get_cookies()
+try: 
     for cookie in cookies:
         if cookie['name'] == 'CloudFront-Key-Pair-Id':
             key_pair = cookie['value']
@@ -116,10 +91,54 @@ for i in CHANNEL_LIST:
             policy = cookie['value']
         if cookie['name'] == 'CloudFront-Signature':
             sig = cookie['value']
+except:
+    "cookies something wrong. check need"
+urls = []
+
+for i in CHANNEL_LIST:
+    url = "https://www.spotvnow.co.kr/player?type=channel&id={i}"
+    browser.get(url)
     time.sleep(2)
 
-new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"
-filename = '../result/output.txt'
+#extra channel
+for i in range(1, 10):
+    url='https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil'
+    browser.get(url)
+    time.sleep(2)
+
+#extra channel 2
+for i in range(10,31):
+    url='https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil'
+    browser.get(url)
+    time.sleep(2)
+
+#for highlights
+browser.get(home_url)
+
+highlight_elements_xpaths = []
+elements = browser.find_elements(By.XPATH, "//*[contains(text(), '하이라이트')]")
+for element in elements:
+    # 각 요소에 대한 XPath를 리스트에 추가
+    highlight_elements_xpaths.append(browser.execute_script(
+        "return generateXPath(arguments[0]);", element))
+
+# XPath를 사용하여 각 요소에 접근하고 클릭
+for xpath in highlight_elements_xpaths:
+    try:
+        # 원래 URL로 돌아가기
+        browser.get(home_url)
+
+        # XPath를 사용하여 요소 찾기
+        element_to_click = browser.find_element(By.XPATH, xpath)
+        
+        # 요소 클릭
+        element_to_click.click()
+
+    except:
+        print("can't find highlights")
+
+new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
+filename = '../result/tmp_output.txt'
 
 # 파일에서 내용 읽기
 with open(filename, 'r') as file:
@@ -139,4 +158,11 @@ for line in lines:
 with open(filename, 'w') as file:
     file.writelines(modified_lines)
 
+
 browser.quit()
+
+
+# 접속해서 팝업 끄기,
+# 팝업 끄고 나면 채널 누르기 
+# 첫 채널 들어가서 키 따기
+# 아웃풋 json으로
