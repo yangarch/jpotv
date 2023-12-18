@@ -74,6 +74,10 @@ login_button.click()
 
 close_all_popups(browser)
 
+#파일 삭제
+with open(f'/Users/archmacmini/Project/jpotv/result/output.txt', 'w') as file:
+    pass
+
 # go to tv channel
 tv_channel_li = browser.find_element(By.CSS_SELECTOR, "li.header-ch")
 tv_channel_li.click()
@@ -104,9 +108,7 @@ for i in CHANNEL_LIST:
 urls = []
 #new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
 
-#파일 삭제
-with open(f'/Users/archmacmini/Project/jpotv/result/output.txt', 'w') as file:
-    pass
+
 
 #for highlights
 browser.get(home_url)
