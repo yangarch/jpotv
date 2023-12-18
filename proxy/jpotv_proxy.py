@@ -7,5 +7,5 @@ def response(flow: http.HTTPFlow) -> None:
             ctx.log.info(
                 f"Found .m3u8 URL with playlist: {flow.request.url}"
             )
-            with open("../result/output.txt", "a") as f:
+            with open("/Users/archmacmini/Project/jpotv/result/output.txt", "a") as f:#path
                 f.write(flow.request.url + "\n")

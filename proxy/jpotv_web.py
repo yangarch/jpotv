@@ -105,7 +105,7 @@ urls = []
 #new_string = f"chunklist_b9192000.m3u8?Policy={policy}&Signature={sig}&Key-Pair-Id={key_pair}"    
 
 #파일 삭제
-with open(f'../result/output.txt', 'w') as file:
+with open(f'/Users/archmacmini/Project/jpotv/result/output.txt', 'w') as file:
     pass
 
 #for highlights
@@ -127,16 +127,16 @@ for i in range(0, len(elements)):
 
 
 #extra channel
-for i in range(1, 10):
-    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil//chunklist_b9192000.m3u8'
-    browser.get(url)
-    time.sleep(3)
+#for i in range(1, 10):
+#    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil//chunklist_b9192000.m3u8'
+#    browser.get(url)
+#    time.sleep(3)
 
 #extra channel 2
-for i in range(10,31):
-    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil//chunklist_b9192000.m3u8'
-    browser.get(url)
-    time.sleep(3)
+#for i in range(10,31):
+#    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil//chunklist_b9192000.m3u8'
+#    browser.get(url)
+#    time.sleep(3)
 
 #filename = '../result/output.txt' # path 수정 필요
 
