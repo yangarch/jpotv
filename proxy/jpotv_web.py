@@ -21,13 +21,11 @@ def close_all_popups(browser):
     time.sleep(2)
     try:
         # close button find
-        button = browser.find_elements(By.ID, "Close")
-        browser.execute_script("arguments[0].scrollIntoView();", button)
+        buttons = browser.find_elements(By.ID, "Close")
         # 'close'이라는 단어가 포함된 id를 가진 이미지 찾아 클릭
-        for image in button:
-            image_id = image.get_attribute("id")
-            if "Close" in image_id:
-                image.click()
+        for button in buttons:
+            print("click button")
+            button.click()
     except:
         print("There's no pop up")
     
@@ -38,6 +36,8 @@ proxy = "localhost:18080"
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument(f"--proxy-server={proxy}")
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('window-size=1920x1080')
 
 # SNS 로그인 정보
 EMAIL = "gate_flowers@naver.com"
