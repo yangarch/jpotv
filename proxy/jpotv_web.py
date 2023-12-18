@@ -22,12 +22,11 @@ def close_all_popups(browser):
     try:
         # close button find
         button = browser.find_elements(By.ID, "Close")
-        
+        browser.execute_script("arguments[0].scrollIntoView();", button)
         # 'close'이라는 단어가 포함된 id를 가진 이미지 찾아 클릭
         for image in button:
             image_id = image.get_attribute("id")
             if "Close" in image_id:
-                browser.execute_script("arguments[0].scrollIntoView();", image)
                 image.click()
     except:
         print("There's no pop up")
