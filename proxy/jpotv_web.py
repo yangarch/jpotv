@@ -159,7 +159,3 @@ for i in range(10,31):
 #    file.writelines(modified_lines)
     
 browser.quit()
-
-    """
-    https://ch01-livescdn.spotvnow.co.kr/ch01/spt01_pc.smil/chunklist_b9192000.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vKmxpdmVzY2RuLnNwb3R2bm93LmNvLmtyLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3MDE3MDc0MDB9fX1dfQ__&Signature=a-Vn0Jm-MPoVGiNsNKHX---PcEotmiAZgQI73nzqXdj1iRM3LJUBgYcJDZG6ENzc2ZenbC3O5bRwhtRr6E2pjoxV8p0oHkyIJN-crvtD-Ny5sOhF6nPq8gBZGYiQ7Xyq~E6gRo9TREijoPLRwNYnztPY8PklN4CTKaFliussNs1HlR~eewMjR5w0HZUkSb0TZfVfaFW9ScuAgT2xO2pYRXisOO1~yPrXU9Ne2E9D5GROnGVefvTfWa6PYPtlNLiJk~bskf7tRpcSznQrq~rw1l1V7vGmAyJvZNTQcxc~ZZCj3wVeFLYlXJzrkGrai34BU03MBRhE2ElSeuXKBxjubQ__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q
-    """
