@@ -27,6 +27,7 @@ def close_all_popups(browser):
         for image in button:
             image_id = image.get_attribute("id")
             if "Close" in image_id:
+                browser.execute_script("arguments[0].scrollIntoView();", image)
                 image.click()
     except:
         print("There's no pop up")
