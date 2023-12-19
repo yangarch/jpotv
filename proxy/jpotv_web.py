@@ -1,4 +1,5 @@
 import time
+import json
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -116,9 +117,14 @@ time.sleep(3)
 
 elements= browser.find_elements(By.XPATH, "//p[contains(text(), '하이라이트')]")
 
+for element in elements:
+    print(element.text)
+
+highlight_names = []
 for i in range(0, len(elements)):
-    if i%2 == 0:
+    if elements[i].text.startswith("하이라이트"):
         continue
+    highlight_names.append(elements[i].text)
     elements[i].click()
     time.sleep(3)
     browser.get(home_url)
@@ -126,38 +132,65 @@ for i in range(0, len(elements)):
     elements= browser.find_elements(By.XPATH, "//p[contains(text(), '하이라이트')]")
     time.sleep(3)
 
-
+filename = '/Users/archmacmini/Project/jpotv/result/output.txt' # path 수정 필요
+with open(filename, 'r') as file:
+    lines = file.readlines()
+cred_line = lines[0].split("?")[1]
 
 #extra channel
 for i in range(1, 10):
-    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/chunklist_b9192000.m3u8'
+    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/chunklist_b9192000.m3u8?{cred_line}'
     browser.get(url)
     time.sleep(3)
 
 #extra channel 2
 for i in range(10,31):
-    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/chunklist_b9192000.m3u8'
+    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/chunklist_b9192000.m3u8?{cred_line}'
     browser.get(url)
     time.sleep(3)
 
-#filename = '../result/output.txt' # path 수정 필요
 
-# # 파일에서 내용 읽기
-# with open(filename, 'r') as file:
-#     lines = file.readlines()
 
-# # 각 줄을 처리
-# modified_lines = []
-# for line in lines:
-#     parts = line.strip().split('/')
-#     if parts:
-#         parts.pop()
-#     parts.append(new_string)
-#     modified_line = '/'.join(parts)
-#     modified_lines.append(modified_line + '\n')
+# 파일에서 내용 읽기
+with open(filename, 'r') as file:
+    lines = file.readlines()
 
-# # 수정된 내용으로 파일에 다시 쓰기
-# with open(filename, 'w') as file:
-#    file.writelines(modified_lines)
-    
+# 각 줄을 처리
+modified_lines = []
+for line in lines:
+    if line.endswith("chunklist_b9192000.m3u8"):
+        line=(line+cred_line)
+    modified_lines.append(line)
+
+# 수정된 내용으로 파일에 다시 쓰기
+with open(filename, 'w') as file:
+    file.writelines(modified_lines)
+
+json_list = []
+#json parser
+count = 0
+for line in modified_lines:
+    if line.startswith("https://spotv") or line.startswith("https://ch"):
+        prefix = line.split('-')[0]
+        name = prefix.split('/')[-1]
+        json_tmp = {
+            "name": name,
+            "url": line,
+            "resolution": '1080p'
+        }
+        json_list.append(json_tmp)
+    if line.startswith("https://manifest"):
+        json_tmp = {
+            "name": highlight_names[count],
+            "url": line,
+            "resuolution": '1080p'
+        }
+        json_list.append(json_tmp)
+        count += 1
+
+path = "/Users/archmacmini/Project/jpotv/result"
+
+with open(f'{path}/output.json', 'w', encoding='utf-8') as file:
+    json.dump(json_list, file, ensure_ascii=False, indent=4)    
+
 browser.quit()
