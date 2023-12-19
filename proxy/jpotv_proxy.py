@@ -2,7 +2,7 @@ from mitmproxy import ctx, http
 
 
 def response(flow: http.HTTPFlow) -> None:
-    if "playlist.m3u8" in flow.request.url or "master.m3u8" in flow.request.url:
+    if "playlist.m3u8" in flow.request.url or "master.m3u8" in flow.request.url or "b9192000.m3u8" in flow.request.url:
         ctx.log.info(
             f"Found .m3u8 URL with playlist: {flow.request.url}"
         )
