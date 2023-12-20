@@ -40,15 +40,10 @@ $(function() {
         });
         document.getElementById('url').value = data[firstChannel];
 
-        /** 비디오 클릭으로 무음 해제 */
-        player.on('click', function() {
-            if (player.muted()) {
-                player.muted(false);
-                player.play();
-            }
-        });
+        /** 무음 해제 */
+        player.muted(false);
         
-        /** 버튼 action */
+        /** 채널 버튼 action */
         $(".list-group-item").click(function(e) {
             e.preventDefault();
             
@@ -83,4 +78,3 @@ function copyText() {
 
     alert('복사되었습니다');
 }
-  
