@@ -166,31 +166,37 @@ for line in lines:
 with open(filename, 'w') as file:
     file.writelines(modified_lines)
 
-json_list = []
+res_json= {}
 #json parser
+'''
+1080: 9192000
+720: 3692000
+360: 1692000 
+
+'''
+
 count = 0
 for line in modified_lines:
     if line.startswith("https://spotv") or line.startswith("https://ch"):
         prefix = line.split('-')[0]
         name = prefix.split('/')[-1]
         json_tmp = {
-            "name": name,
-            "url": line,
-            "resolution": '1080p'
+            "1080": line,
+            "720": line.replace("9192000", "3692000"),
+            "360": line.replace("9192000", "1692000")
         }
-        json_list.append(json_tmp)
+        res_json[name] = json_tmp
+        
     if line.startswith("https://manifest"):
         json_tmp = {
-            "name": highlight_names[count],
-            "url": line,
-            "resuolution": '1080p'
+            "1080": line
         }
-        json_list.append(json_tmp)
+        res_json[highlight_names[count]] = json_tmp
         count += 1
 
 path = "/Users/archmacmini/Project/jpotv/result"
 
 with open(f'{path}/output.json', 'w', encoding='utf-8') as file:
-    json.dump(json_list, file, ensure_ascii=False, indent=4)    
+    json.dump(res_json, file, ensure_ascii=False, indent=4)    
 
 browser.quit()
