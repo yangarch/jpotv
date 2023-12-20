@@ -1,5 +1,6 @@
 import time
 import json
+import requests
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -139,15 +140,20 @@ cred_line = lines[0].split("?")[1]
 
 #extra channel
 for i in range(1, 10):
-    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/chunklist_b9192000.m3u8?{cred_line}'
-    browser.get(url)
-    time.sleep(3)
+    
+    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/playlist.m3u8?{cred_line}'
+    res = requests.get(url)
+    if res.status_code == 200:
+        browser.get(url)
+        time.sleep(3)
 
 #extra channel 2
-for i in range(10,31):
-    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/chunklist_b9192000.m3u8?{cred_line}'
-    browser.get(url)
-    time.sleep(3)
+for i in range(10,40):
+    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/playlist.m3u8?{cred_line}'
+    res = requests.get(url)
+    if res.status_code == 200:
+        browser.get(url)
+        time.sleep(3)
 
 
 
@@ -172,12 +178,11 @@ res_json= {}
 1080: 9192000
 720: 3692000
 360: 1692000 
-
 '''
 
 count = 0
 for line in modified_lines:
-    if line.startswith("https://spotv") or line.startswith("https://ch"):
+    if line.startswith("https://spotv"):
         prefix = line.split('-')[0]
         name = prefix.split('/')[-1]
         json_tmp = {
@@ -193,6 +198,13 @@ for line in modified_lines:
         }
         res_json[highlight_names[count]] = json_tmp
         count += 1
+    
+    if line.startswith("https://ch"):
+        prefix = line.split('-')[0]
+        name = prefix.split('/')[-1]
+        json_tmp = {
+            "1080": line
+        }
 
 path = "/Users/archmacmini/Project/jpotv/result"
 
