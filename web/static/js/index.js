@@ -1,4 +1,8 @@
-const player = videojs('video');
+const player = videojs('video', {}, function() {
+	this.on('loadedmetadata', function() {
+ 		console.log('hi');
+ 	});
+});
 const data = {};
 
 $(function() {
@@ -34,11 +38,41 @@ $(function() {
 
         /** 첫번째 채널 강제 셋팅 */
         const firstChannel = Object.keys(data)[0];
-        player.src({ 
-            src: data[firstChannel], 
-            type: 'application/x-mpegURL'
-        });
+        // player.src({ 
+        //     src: data[firstChannel], 
+        //     type: 'application/x-mpegURL'
+        // });
+
+        player.controlBar.addChild('qualitySelector');
+        player.src([
+            {
+               src: data[Object.keys(data)[0]],
+               type: 'application/x-mpegURL',
+               label: '720P',
+               selected: true,
+            },
+            {
+               src: data[Object.keys(data)[1]],
+               type: 'application/x-mpegURL',
+               label: '480P',
+            },
+            {
+               src: data[Object.keys(data)[2]],
+               type: 'application/x-mpegURL',
+               label: '360P',
+
+            },
+         ]);
+
+
+
         document.getElementById('url').value = data[firstChannel];
+
+
+        player.controlBar.on('click', function(e) {
+            console.log(e);
+
+        })
 
         /** 비디오 클릭으로 무음 해제 */
         player.on('click', function() {
@@ -64,6 +98,12 @@ $(function() {
 
             document.getElementById('url').value = data[this.text];
         });
+
+        player.addEventListener('loadedmetadata', function() {
+            // 비디오 소스가 변경되었을 때 실행할 동작 작성
+            console.log('Video source changed!');
+          });
+
     })
     .catch(error => {
         console.error(error);
