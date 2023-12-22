@@ -1,3 +1,4 @@
+import cv2
 import time
 import json
 import requests
@@ -18,6 +19,8 @@ spotv on 2 : 2
 nba tv : 3
 '''
 CHANNEL_LIST = ["9", "10", "15", "11", "1", "2", "3"]
+PATH = "/Users/archmacmini/Project/jpotv/result"
+DEFAULT_SIZE = 118767161
 
 def close_all_popups(browser):
     time.sleep(2)
@@ -32,6 +35,22 @@ def close_all_popups(browser):
         print("There's no pop up")
     
     time.sleep(2)
+
+def check_onair(browser, channel):
+    img_path=f"{PATH}/{channel}.png"
+    browser.get_screenshot_as_file(img_path)
+    
+    image = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    image_size = 0
+    standart_size = 1
+
+    for line in image:
+        for cell in line:
+            image_size += line[cell]
+    
+    if abs(image_size / DEFAULT_SIZE) > 1.05 or abs(image_size / DEFAULT_SIZE) < 0.95:
+        return channel
+    return None
 
 # mitmproxy가 실행되는 호스트와 포트
 proxy = "localhost:18080"
@@ -138,23 +157,30 @@ with open(filename, 'r') as file:
     lines = file.readlines()
 cred_line = lines[0].split("?")[1]
 
+onair_channel = []
 #extra channel
 for i in range(1, 10):
-    
+    str_channel = f"0{i}"
     url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/playlist.m3u8?{cred_line}'
     res = requests.get(url)
     if res.status_code == 200:
+        print("channel searched")
         browser.get(url)
         time.sleep(3)
+        if check_onair(browser,str_channel):
+            onair_channel.append(str_channel)
+        
 
 #extra channel 2
 for i in range(10,40):
     url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/playlist.m3u8?{cred_line}'
     res = requests.get(url)
     if res.status_code == 200:
+        print("channel searched")
         browser.get(url)
         time.sleep(3)
-
+        if check_onair(browser,str(i)):
+            onair_channel.append(str(i))
 
 
 # 파일에서 내용 읽기
@@ -202,13 +228,14 @@ for line in modified_lines:
     if line.startswith("https://ch"):
         prefix = line.split('-')[0]
         name = prefix.split('/')[-1]
-        json_tmp = {
-            "1080": line
-        }
+        if name in onair_channel:
+            json_tmp = {
+                "1080": line
+            }
 
-path = "/Users/archmacmini/Project/jpotv/result"
 
-with open(f'{path}/output.json', 'w', encoding='utf-8') as file:
+
+with open(f'{PATH}/output.json', 'w', encoding='utf-8') as file:
     json.dump(res_json, file, ensure_ascii=False, indent=4)    
 
 browser.quit()
