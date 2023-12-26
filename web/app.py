@@ -8,7 +8,7 @@ def index():
 
 @app.route('/output')
 def read_file():
-    file_path = '/app/data/output.txt'
+    file_path = '/app/data/result/output.txt'
     try:
         with open(file_path, 'r') as file:
             return file.read(), 200, {'Content-Type': 'text/plain'}
