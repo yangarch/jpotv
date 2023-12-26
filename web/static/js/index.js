@@ -54,7 +54,7 @@ $(function () {
           src: url,
           type: "application/x-mpegURL",
           label: label + "P",
-          selected: label === 1080,
+          selected: label === "1080",
         }))
       );
 
