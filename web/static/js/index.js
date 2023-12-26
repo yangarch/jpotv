@@ -1,96 +1,61 @@
-const player = videojs('video', {}, function() {
-	this.on('loadedmetadata', function() {
- 		console.log('hi');
- 	});
-});
-const data = {};
+const player = videojs('player');
 
 $(function() {
-    /** output.txt 읽어오기 */
     fetch('/output')
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.text();
+        return response.json();
     })
-    .then(output => {
-        /** data 초기화 */
-        output.split('\n').forEach(url => {
-            if(url !== "") {
-                let channel = url.split("https://")[1].split("-")[0];
-                data[channel] = url;
-            }
-        })
+    .then(data => {        
+        /** 플레이어 세팅 */
+        player.controlBar.addChild('qualitySelector');
 
-        /** 동적 버튼 생성 */
-        const listGroup = document.querySelector('.list-group');
-        const keys = Object.keys(data);
-
-        keys.forEach((key, index) => {
+        /** 채널 버튼 생성 */
+        const listGroup = document.querySelector('.list-group');        
+        const channelList = Object.keys(data);
+        channelList.forEach((channel, index) => {
             const link = document.createElement('a');
             link.href = "#"
-            link.textContent = key;
+            link.textContent = channel;
             link.classList.add('list-group-item', 'list-group-item-dark');
             if (index === 0) link.classList.add('active');
             listGroup.appendChild(link);
         })
 
         /** 첫번째 채널 강제 셋팅 */
-        const firstChannel = Object.keys(data)[0];
-        // player.src({ 
-        //     src: data[firstChannel], 
-        //     type: 'application/x-mpegURL'
-        // });
+        player.src(
+            Object.entries(data[channelList[0]]).map(([label, url], index) => ({
+                src: url,
+                type: 'application/x-mpegURL',
+                label: label + 'P',
+                selected: index === 0,
+            }))
+        )
 
-        player.controlBar.addChild('qualitySelector');
-        player.src([
-            {
-               src: data[Object.keys(data)[0]],
-               type: 'application/x-mpegURL',
-               label: '720P',
-               selected: true,
-            },
-            {
-               src: data[Object.keys(data)[1]],
-               type: 'application/x-mpegURL',
-               label: '480P',
-            },
-            {
-               src: data[Object.keys(data)[2]],
-               type: 'application/x-mpegURL',
-               label: '360P',
-
-            },
-         ]);
-
-
-
-        document.getElementById('url').value = data[firstChannel];
-
-        
         /** 채널 버튼 action */
         $(".list-group-item").click(function(e) {
-            e.preventDefault();
-            
+            const channel = Object.entries(data[this.text]);
+            console.log(channel);
+            player.src(
+                channel.map(([label, url], index) => ({
+                    src: url,
+                    type: 'application/x-mpegURL',
+                    label: label + 'P',
+                    selected: index === 0,
+                }))
+            );
+
             $(".list-group-item.active").removeClass("active");
             $(this).addClass("active");
-
-            player.src({
-                src: data[this.text],
-                type: 'application/x-mpegURL'
-            });
-            player.play();
-            player.muted(false);
-
-            document.getElementById('url').value = data[this.text];
+            e.preventDefault();
         });
 
-        player.addEventListener('loadedmetadata', function() {
-            // 비디오 소스가 변경되었을 때 실행할 동작 작성
-            console.log('Video source changed!');
-          });
-
+        /** 주소 복사 URL 갱신 */
+        player.on('loadedmetadata', function(e) {
+            document.getElementById('url').value = player.currentSrc();
+        });
     })
     .catch(error => {
         console.error(error);
@@ -110,3 +75,5 @@ function copyText() {
 
     alert('복사되었습니다');
 }
+
+

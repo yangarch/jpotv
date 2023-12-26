@@ -14,21 +14,17 @@
       <span class="navbar-brand mb-0 mx-3 h1">JPOTV</span>
     </nav>
     <div class="container">
-      <div class="row px-0 mt-3">
-        <div class="col-md-10 px-0 video-container">
-          <video class="video-js" id="video" preload="auto" controls muted autoplay></video>
-        </div>
-        <div class="col-md-2 px-0 button-container">
-          <div class="list-group">
-          </div>
-        </div>
+      <div class="row mt-4 channel-container">
+        <ul class="list-group list-group-horizontal"></ul>
       </div>
-      <div class="row px-0 mb-5">
-        <div class="col-md-12 px-0 url-container">
-          <div class="input-group px-0">
-            <input type="text" class="form-control" id="url" disabled>
-            <button class="btn btn-secondary" onclick="copyText()">주소복사</button>
-          </div>
+      <div class="row video-container">
+        <video class="video-js" id="player" preload="auto" controls muted autoplay></video>
+        <video class="video-js" id="capturePlayer" preload="auto" hidden></video>
+      </div>
+      <div class="row mb-5 url-container">
+        <div class="input-group px-0">
+          <input type="text" class="form-control" id="url" disabled>
+          <button class="btn btn-secondary" onclick="copyText()">주소복사</button>
         </div>
       </div>
     </div>
