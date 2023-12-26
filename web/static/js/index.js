@@ -1,80 +1,103 @@
-const player = videojs('video');
-const data = {};
+const player = videojs("player");
+const capturePlayer = videojs("capturePlayer");
 
-$(function() {
-    /** output.txt 읽어오기 */
-    fetch('/output')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.text();
+$(function () {
+  fetch("/output")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
     })
-    .then(output => {
-        /** data 초기화 */
-        output.split('\n').forEach(url => {
-            if(url !== "") {
-                let channel = url.split("https://")[1].split("-")[0];
-                data[channel] = url;
-            }
-        })
+    .then(async (data) => {
+      /** 데이터 초기화 및 플레이어 세팅 */
+      const channelList = Object.keys(data);
+      player.controlBar.addChild("qualitySelector");
 
-        /** 동적 버튼 생성 */
-        const listGroup = document.querySelector('.list-group');
-        const keys = Object.keys(data);
+      /** 채널 버튼 생성 (텍스트만)*/
+      channelList.forEach((channel) => {
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d");
 
-        keys.forEach((key, index) => {
-            const link = document.createElement('a');
-            link.href = "#"
-            link.textContent = key;
-            link.classList.add('list-group-item', 'list-group-item-dark');
-            if (index === 0) link.classList.add('active');
-            listGroup.appendChild(link);
-        })
+        canvas.id = channel + "Thumbnail";
+        canvas.style.border = "1px solid gray";
+        canvas.style.cursor = "pointer";
+        canvas.width = 192;
+        canvas.height = 110;
 
-        /** 첫번째 채널 강제 셋팅 */
-        const firstChannel = Object.keys(data)[0];
-        player.src({ 
-            src: data[firstChannel], 
-            type: 'application/x-mpegURL'
+        context.font = "16px Arial";
+        context.fillStyle = "black";
+        context.strokeStyle = "white";
+        context.lineWidth = 3;
+
+        context.strokeText(channel, 10, 20);
+        context.fillText(channel, 10, 20);
+
+        canvas.addEventListener("click", () => {
+          let qualityList = Object.entries(data[channel]);
+          player.src(
+            qualityList.map(([label, url], index) => ({
+              src: url,
+              type: "application/x-mpegURL",
+              label: label + "P",
+              selected: index === 0,
+            }))
+          );
         });
-        document.getElementById('url').value = data[firstChannel];
 
-        /** 무음 해제 */
-        player.muted(false);
-        
-        /** 채널 버튼 action */
-        $(".list-group-item").click(function(e) {
-            e.preventDefault();
-            
-            $(".list-group-item.active").removeClass("active");
-            $(this).addClass("active");
+        document.querySelector(".list-group").appendChild(canvas);
+      });
 
-            player.src({
-                src: data[this.text],
-                type: 'application/x-mpegURL'
-            });
-            player.play();
-            player.muted(false);
+      /** 첫번째 채널 강제 셋팅 */
+      player.src(
+        Object.entries(data[channelList[0]]).map(([label, url], index) => ({
+          src: url,
+          type: "application/x-mpegURL",
+          label: label + "P",
+          selected: index === 0,
+        }))
+      );
 
-            document.getElementById('url').value = data[this.text];
+      /** 주소 복사 URL 갱신 */
+      player.on("loadedmetadata", function (e) {
+        document.getElementById("url").value = player.currentSrc();
+      });
+
+      /** 채널 버튼 썸네일 추가 */
+      let video = document.querySelector("#capturePlayer video");
+      for (const channel of channelList) {
+        capturePlayer.src({ src: data[channel]["1080"], type: "application/x-mpegURL" });
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            let canvas = document.getElementById(channel + "Thumbnail");
+            let context = canvas.getContext("2d");
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            context.strokeText(channel, 10, 20);
+            context.fillText(channel, 10, 20);
+
+            resolve();
+          }, 1000);
         });
+      }
+      videojs(video).dispose();
     })
-    .catch(error => {
-        console.error(error);
+    .catch((error) => {
+      console.error(error);
     });
 });
 
 function copyText() {
-    const urlInput = document.getElementById('url');
-    const urlValue = urlInput.value;
-  
-    const dummyElement = document.createElement('textarea');
-    dummyElement.value = urlValue;
-    document.body.appendChild(dummyElement);
-    dummyElement.select();
-    document.execCommand('copy');
-    document.body.removeChild(dummyElement);
+  const urlInput = document.getElementById("url");
+  const urlValue = urlInput.value;
 
-    alert('복사되었습니다');
+  const dummyElement = document.createElement("textarea");
+  dummyElement.value = urlValue;
+  document.body.appendChild(dummyElement);
+  dummyElement.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummyElement);
+
+  alert("복사되었습니다");
 }
