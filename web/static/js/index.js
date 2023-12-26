@@ -40,7 +40,7 @@ $(function () {
               src: url,
               type: "application/x-mpegURL",
               label: label + "P",
-              selected: index === "1080",
+              selected: label === "1080",
             }))
           );
         });
