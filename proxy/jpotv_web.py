@@ -142,8 +142,6 @@ for element in elements:
 
 highlight_names = []
 for i in range(0, len(elements)):
-    if elements[i].text.startswith("하이라이트"):
-        continue
     highlight_names.append(elements[i].text)
     elements[i].click()
     time.sleep(3)
