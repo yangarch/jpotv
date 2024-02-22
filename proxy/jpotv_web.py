@@ -142,13 +142,14 @@ for element in elements:
 
 highlight_names = []
 for i in range(0, len(elements)):
-    highlight_names.append(elements[i].text)
-    elements[i].click()
+    tmp_elements= browser.find_elements(By.XPATH, "//p[contains(text(), '하이라이트')]")
+    highlight_names.append(tmp_elements[i].text)
+    tmp_elements[i].click()
     time.sleep(3)
     browser.get(home_url)
     time.sleep(3)
-    elements= browser.find_elements(By.XPATH, "//p[contains(text(), '하이라이트')]")
-    time.sleep(3)
+    #elements= browser.find_elements(By.XPATH, "//p[contains(text(), '하이라이트')]")
+    #time.sleep(3)
 
 filename = '/Users/archmacmini/Project/jpotv/result/output.txt' # path 수정 필요
 with open(filename, 'r') as file:
