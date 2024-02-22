@@ -143,7 +143,7 @@ for element in elements:
 highlight_names = []
 for i in range(0, len(elements)):
     tmp_elements= browser.find_elements(By.XPATH, "//p[contains(text(), '하이라이트')]")
-    if elements[i].text.startswith("하이라이트"):
+    if tmp_elements[i].text.startswith("하이라이트"):
         continue
     highlight_names.append(tmp_elements[i].text)
     tmp_elements[i].click()
