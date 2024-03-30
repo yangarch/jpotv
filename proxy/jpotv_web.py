@@ -162,7 +162,7 @@ onair_channel = []
 #extra channel
 for i in range(1, 10):
     str_channel = f"0{i}"
-    url=f'https://ch0{i}-livescdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/playlist.m3u8?{cred_line}'
+    url=f"https://ch0{i}-livecdn.spotvnow.co.kr/ch0{i}/spt0{i}_pc.smil/playlist.m3u8?{cred_line}"
     res = requests.get(url)
     if res.status_code == 200:
         print("channel searched")
@@ -174,7 +174,7 @@ for i in range(1, 10):
 
 #extra channel 2
 for i in range(10,40):
-    url=f'https://ch{i}-livescdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/playlist.m3u8?{cred_line}'
+    url=f"https://ch{i}-livecdn.spotvnow.co.kr/ch{i}/spt{i}_pc.smil/playlist.m3u8?{cred_line}"
     res = requests.get(url)
     if res.status_code == 200:
         print("channel searched")
