@@ -158,6 +158,30 @@ with open(filename, 'r') as file:
     lines = file.readlines()
 cred_line = lines[0].split("?")[1]
 
+
+#for main scene
+browser.get(home_url)
+time.sleep(3)
+
+elements= browser.find_elements(By.XPATH, "//p[contains(text(), '주요장면')]")
+
+for element in elements:
+    print(element.text)
+
+for i in range(0, len(elements)):
+    tmp_elements= browser.find_elements(By.XPATH, "//p[contains(text(), '주요장면')]")
+    if tmp_elements[i].text.startswith("주요장면"):
+        continue
+    highlight_names.append(tmp_elements[i].text)
+    tmp_elements[i].click()
+    time.sleep(3)
+    browser.get(home_url)
+    time.sleep(3)
+    #elements= browser.find_elements(By.XPATH, "//p[contains(text(), '주요장면')]")
+    time.sleep(3)
+# end main scene
+
+
 onair_channel = []
 #extra channel
 for i in range(1, 10):
@@ -240,3 +264,16 @@ with open(f'{PATH}/output.json', 'w', encoding='utf-8') as file:
     json.dump(res_json, file, ensure_ascii=False, indent=4)    
 
 browser.quit()
+
+'''
+https://ch32-livecdn.spotvnow.co.kr/ch32/spt32_pc.smil/chunklist_playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vc3BvdHYtbGl2ZWNkbi5zcG90dm5vdy5jby5rci9zcG90di9zcG90dl9wYy5zbWlsLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3MTE4ODQzMjB9fX1dfQ__&Signature=Uc9R7oz-EesDgS6Zfkauj6q5Y3t8DnsIoUKir5mM9QDCETejlJXbBFUCFUUEw1kjpUbhf3arYa4NSgbtUE~QxgS~ZEm~PZjoGknxJNl7~Mat3GmcaSZaawp4eZMG5sLvnr0WD58yWKi6h92hYZHbr7PHTeQJCySYaPLAlJf8zircz1haftP85Ua9dkG4fhPiG~pyYkAuYCohMclJenTu0whOQmY23DuhuJS3MM2faMbuVfdE~q-zuR2CXwd90iEgbeyUDfNicVuW71yCz4lDUtuClNdAXDPDl7Ud-JLQcJCyjEPTsSnIBcFHpz-EumrmmroTyDu4KaktxsLk83gMrQ__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q
+
+
+https://ch28-livecdn.spotvnow.co.kr/ch28/spt28_pc.smil/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vY2gyOC1saXZlY2RuLnNwb3R2bm93LmNvLmtyL2NoMjgvc3B0MjhfcGMuc21pbC8qIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzExOTMzODAwfX19XX0_&Signature=Any10rKz28oV5QA6A64VrZLgdAXR0qKIFBfRPidGEdZIr63ePooGCaNW~9h2GrvK1C3oq6byc61EHXnsihS9C9ve-HvGf-Axb0jgdYk-3iawovGb0Q3QEMufS3BkYSl008ah6iOQYsgAJbpjNxGzuBhk04G3Bt4b0QQtWfEFYd54QZILuuqvsTU0l4JNyqi-sSlyRXsjfroFlNViODPXRCA7b2nwSFkKzdkHumukbTgryRYpGyOEansIHs03C9lifvPY9e0K9-dgfRc3QST3-~3P9iPZeRa5RMONM4B6OxxfgtjREL0giLAK10AlP38tstZtHqZbuXamrg-ei-8MGA__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q
+https://spotv-livecdn.spotvnow.co.kr/spotv/spotv_pc.smil/chunklist_b9192000.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vc3BvdHYtbGl2ZWNkbi5zcG90dm5vdy5jby5rci9zcG90di9zcG90dl9wYy5zbWlsLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3MTE5MzExMjB9fX1dfQ__&Signature=CmBV-rxI1LWllhsqQU73OJmCpx8YbPNRuGYtPDqnfTtgPcvjN7fUUFzZumsKNEk2TM6ETr7tWeU9%7EHCvcl-5ODKA2rWil1VuHsE2r4JFHhFa1XbGR3O-Qx0lgQIOA2M6mgNoO41Q3RBrkcEOWI8vPEIyX9vYgnfRPor9AQp5oL4HHAXPh7Ti2BQ5u4Atmlhd-3AFM0%7E-E9QCz-Sgjt5IZfOrc5qZFYPgoSSxDG57FU2k2RP56BPE-Ux%7E4vbHvopWRYSJ6XmQ7WE%7EamsfU56PBfOe4tp%7EwyRXRgPUB%7EzHOkP1pdX8-Sm1BcXxALxu0D2g7uqb73TCp2NMHKJXaizPoQ__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q
+
+https://ch03-livecdn.spotvnow.co.kr/ch03/spt03_pc.smil/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vc3BvdHYtbGl2ZWNkbi5zcG90dm5vdy5jby5rci9zcG90di9zcG90dl9wYy5zbWlsLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3MTE5MzExMjB9fX1dfQ__&Signature=CmBV-rxI1LWllhsqQU73OJmCpx8YbPNRuGYtPDqnfTtgPcvjN7fUUFzZumsKNEk2TM6ETr7tWeU9%7EHCvcl-5ODKA2rWil1VuHsE2r4JFHhFa1XbGR3O-Qx0lgQIOA2M6mgNoO41Q3RBrkcEOWI8vPEIyX9vYgnfRPor9AQp5oL4HHAXPh7Ti2BQ5u4Atmlhd-3AFM0%7E-E9QCz-Sgjt5IZfOrc5qZFYPgoSSxDG57FU2k2RP56BPE-Ux%7E4vbHvopWRYSJ6XmQ7WE%7EamsfU56PBfOe4tp%7EwyRXRgPUB%7EzHOkP1pdX8-Sm1BcXxALxu0D2g7uqb73TCp2NMHKJXaizPoQ__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q
+
+
+https://ch03-livecdn.spotvnow.co.kr/ch03/spt03_pc.smil/playlist.m3u8?Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vY2gwMy1saXZlY2RuLnNwb3R2bm93LmNvLmtyL2NoMDMvc3B0MDNfcGMuc21pbC8qIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzExOTI2OTAwfX19XX0_&Signature=tX1zTK7~R909BUJkQW0VKwJFKZi10057d0uzLgDn~0KdEWtchOcAGU~DVP~Qc1cU9x63t4ckyI2scuQg2vRM6AZCMyA9AO28MiEYWUXSZse3l2aeHpOrF7GN0vLSbz6MGnW84~4Qt7slF7MEjf3dzLvSpgKvdu~nRBEepTOzrZqTYLIIpnxz8YCbdpbI3YqbRuCZbLNEbkXKEMF7zdrk5A-hYewoihPSt2Fkf6Q0C59sJ45pnIvuxntSLEN8~MhpqDHbre7WkJEoX-yfK~qH5dEuZjMb3fUjytzNnp-vrTfdoOXwe62rGDHBXjn-YZ-Ffnd2bumENOFmGMx8MT~Q9Q__&Key-Pair-Id=APKAI2M6I5EDDXED7H5Q
+'''
