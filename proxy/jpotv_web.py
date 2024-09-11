@@ -76,6 +76,7 @@ capabilities = webdriver.DesiredCapabilities.CHROME.copy()
 capabilities["acceptInsecureCerts"] = True
 
 driver_path = ChromeDriverManager().install()
+last_slash_index = driver_path.rfind("/")
 
 # chromedirver issue
 new_path = driver_path[:last_slash_index] + "/chromedriver"
