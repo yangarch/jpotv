@@ -2,6 +2,8 @@ import cv2
 import time
 import json
 import requests
+import stat
+import os
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -21,6 +23,12 @@ nba tv : 3
 CHANNEL_LIST = ["9", "10", "15", "11", "1", "2", "3"]
 PATH = "/Users/archmacmini/Project/jpotv/result"
 DEFAULT_SIZE = 118767161
+
+def set_chromedriver_permissions(path):
+    # 사용자 권한을 읽기, 쓰기, 실행 가능하게 설정
+    os.chmod(path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+    # 그룹 및 다른 사용자도 실행 가능하게 설정
+    os.chmod(path, stat.S_IRUSR | stat.S_IXUSR)
 
 def close_all_popups(browser):
     time.sleep(2)
@@ -67,8 +75,16 @@ PASSWORD = "arch0115"
 capabilities = webdriver.DesiredCapabilities.CHROME.copy()
 capabilities["acceptInsecureCerts"] = True
 
-service = Service(ChromeDriverManager().install())
-chromedriver_version = "114.0.5735.16"
+driver_path = ChromeDriverManager().install()
+
+# chromedirver issue
+new_path = driver_path[:last_slash_index] + "/chromedriver"
+set_chromedriver_permissions(new_path)
+
+service = Service(new_path)
+
+#service = Service(ChromeDriverManager().install())
+#chromedriver_version = "114.0.5735.16"
 browser = webdriver.Chrome(service=service, options=chrome_options)
 
 browser.maximize_window()
