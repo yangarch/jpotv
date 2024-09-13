@@ -1,10 +1,18 @@
 import os
+import stat
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 PATH = "/Users/archmacmini/Project/jpotv/result"
+
+def set_chromedriver_permissions(path):
+    # 사용자 권한을 읽기, 쓰기, 실행 가능하게 설정
+    os.chmod(path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+    # 그룹 및 다른 사용자도 실행 가능하게 설정
+    os.chmod(path, stat.S_IRUSR | stat.S_IXUSR)
 
 # 크롬 옵션 설정 (headless 모드)
 chrome_options = Options()
