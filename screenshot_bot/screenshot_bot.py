@@ -12,11 +12,16 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1920x1080")  # 전체 페이지 스크린샷을 위해 필요한 옵션
 
-# 크롬 드라이버 경로 지정
-driver_path = '/path/to/chromedriver'
-service = Service(driver_path)
+driver_path = ChromeDriverManager().install()
 
-# 브라우저 실행
+last_slash_index = driver_path.rfind("/")
+
+# chromedirver issue
+new_path = driver_path[:last_slash_index] + "/chromedriver"
+set_chromedriver_permissions(new_path)
+
+service = Service(new_path)
+# chromedriver_version = "114.0.5735.16"
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # 원하는 URL 접속
