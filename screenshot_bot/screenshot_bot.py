@@ -31,7 +31,7 @@ set_chromedriver_permissions(new_path)
 
 service = Service(new_path)
 # chromedriver_version = "114.0.5735.16"
-driver = webdriver.Chrome(service=service, options=chrome_options)
+driver = webdriver.Safari()
 
 # 원하는 URL 접속
 # sample url 
@@ -62,7 +62,7 @@ for i in range(1,21):
 
         # 스크린샷 저장 경로 설정
         screenshot_path = f"{image_folder}/{ch_name}.png"
-        driver.save_screenshot(screenshot_path)
+        driver.get_screenshot_as_file(screenshot_path)
         print(f"스크린샷이 {screenshot_path}에 저장되었습니다.")
     
     except WebDriverException as e:
