@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import WebDriverException
 import time
 
 PATH = "/Users/archmacmini/Project/jpotv/result"
@@ -55,14 +56,18 @@ for i in range(1,21):
         ch_name = f"ch0{i}"
     
     url = f"https://{ch_name}-elivecdn.spotvnow.co.kr/{ch_name}/cbcs/medialist_9171188557012390620_hls.m3u8"        
-    driver.get(url)
+    try:
+        driver.get(url)
+        time.sleep(3)  # 페이지 로딩 대기
 
-    # 페이지 로딩 대기
-    time.sleep(5)
-
-    # 스크린샷 저장
-    screenshot_path = f"{image_folder}/{ch_name}.png"
-    driver.save_screenshot(screenshot_path)
+        # 스크린샷 저장 경로 설정
+        screenshot_path = f"{image_folder}/{ch_name}.png"
+        driver.save_screenshot(screenshot_path)
+        print(f"스크린샷이 {screenshot_path}에 저장되었습니다.")
+    
+    except WebDriverException as e:
+        # 접속 실패할 경우 처리
+        print(f"URL 접속 실패: {url} - {str(e)}")
 
 # 브라우저 종료
 driver.quit()
