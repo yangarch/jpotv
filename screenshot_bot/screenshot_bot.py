@@ -51,7 +51,7 @@ else:
     os.makedirs(image_folder)
     print(f"폴더 {image_folder} 생성 완료")
 
-for i in range(1,21):
+for i in range(1,31):
     ch_name = f"ch{i}"
     if i < 10:
         ch_name = f"ch0{i}"
