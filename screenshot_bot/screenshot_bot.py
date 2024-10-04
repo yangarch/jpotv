@@ -36,6 +36,7 @@ driver = webdriver.Safari()
 # 원하는 URL 접속
 # sample url 
 # https://ch07-elivecdn.spotvnow.co.kr/ch07/cbcs/medialist_9171188557012390620_hls.m3u8
+# https://ch24-nlivecdn.spotvnow.co.kr/ch24/decr/medialist_14173921312004482655_hls.m3u8
 
 image_folder = f"{PATH}/thumbnail"
 
@@ -55,7 +56,7 @@ for i in range(1,21):
     if i < 10:
         ch_name = f"ch0{i}"
     
-    url = f"https://{ch_name}-elivecdn.spotvnow.co.kr/{ch_name}/cbcs/medialist_9171188557012390620_hls.m3u8"        
+    url = f"https://{ch_name}-nlivecdn.spotvnow.co.kr/ch24/decr/medialist_14173921312004482655_hls.m3u8"        
     try:
         driver.get(url)
         time.sleep(3)  # 페이지 로딩 대기
