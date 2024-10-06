@@ -56,7 +56,7 @@ for i in range(1,31):
     if i < 10:
         ch_name = f"ch0{i}"
     
-    url = f"https://{ch_name}-nlivecdn.spotvnow.co.kr/ch24/decr/medialist_14173921312004482655_hls.m3u8"        
+    url = f"https://{ch_name}-nlivecdn.spotvnow.co.kr/{ch_name}/decr/medialist_14173921312004482655_hls.m3u8"        
     try:
         driver.get(url)
         time.sleep(3)  # 페이지 로딩 대기
